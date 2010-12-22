@@ -1,0 +1,72 @@
+body {
+	background: #101010;
+	margin: 0;
+	padding: 0;
+}
+
+#svg_editor {
+	font-size: 8pt;
+	font-family: Verdana, Helvetica, Arial;
+	color: #000000;
+}
+
+#svg_editor a {
+	color: #0000FF;
+}
+
+#svg_editor hr {
+	clear: both;
+}
+
+#svg_editor hr {
+	border: none;
+	border-bottom: 1px solid #404040;
+	padding: 8px;
+	margin: 12px;
+	clear: both;
+}
+
+#svg_editor select {
+	margin-top: 4px;
+}
+
+#svg_editor #svgroot {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#svg_editor #svgcanvas {
+	line-height: normal;
+	display: inline-block;
+	background-color: #101010;
+	text-align: center;
+	vertical-align: middle;
+	width: 595px;
+	height: 595px;
+	position: relative;
+}
+
+#svg_editor .button {
+	width: 64px;
+	height: 64px;
+	border: 3px solid #202020;
+	float: left;
+	margin: 4px;
+	text-align: center;
+	vertical-align: center;
+}
+
+#svg_editor #workarea {
+	float: left;
+}
+
+#svg_editor #toolarea {
+	margin-left: 4px;
+	width: 410px;
+	height: 595px;
+	float: left;
+}
+
