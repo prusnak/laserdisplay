@@ -10,10 +10,10 @@ def create():
     if not mode is None and mode.startswith('remote'):
         from LaserDisplayRemote import LaserDisplayRemote
         s = mode.split(':')
-        if len(mode) == 2:
-            return LaserDisplayRemote(mode[1])
-        if len(mode) == 3:
-            return LaserDisplayRemote(mode[1], mode[2])
+        if len(s) == 2:
+            return LaserDisplayRemote(s[1])
+        if len(s) == 3:
+            return LaserDisplayRemote(s[1], s[2])
 
     # default is simulator
     from LaserDisplaySimulator import LaserDisplaySimulator

@@ -24,13 +24,12 @@ class LaserDisplaySimulator(LaserDisplay):
 
     def show_frame(self):
         pygame.display.flip()
-        time.sleep(1.0/25)
         self.surface.fill( (0,0,0) )
 
     def draw_point(self, x,y):
         x,y = self.apply_context_transforms(x,y)
         x,y = map(lambda a: a*self.SCALE, (x,y) )
-        pygame.draw.line(self.surface, self.__color(), (x,y), (x,y), self.SCALE)
+        pygame.draw.rect(self.surface, self.__color(), pygame.Rect(x,y,self.SCALE,self.SCALE), 1)
 
     def draw_line(self, x1, y1, x2, y2):
         x1,y1 = self.apply_context_transforms(x1,y1)

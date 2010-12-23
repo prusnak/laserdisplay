@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from LaserDisplay import LaserServer
+from LaserDisplay.LaserServer import LaserServer
 
 LS = LaserServer()
 LS.start()
