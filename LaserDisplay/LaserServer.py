@@ -1,16 +1,14 @@
 from twisted.internet import reactor, protocol
 from twisted.protocols import basic
-from LaserDisplaySimulator import LaserDisplaySimulator
-
 
 QUAD_QUALITY = 8
 CUBIC_QUALITY = 8
 
-LD = LaserDisplaySimulator()
+LD = None
 
 def process_line(line):
     s = line.split(' ')
-    if len(s) < 1:
+    if LD is None or len(s) < 1:
         return
 
     if s[0] == 'config':
@@ -63,7 +61,14 @@ class LaserServer():
     def __init__(self, port = 31337):
         self.port = port
 
-    def start(self):
+    def start(self, emulator = False):
+        global LD
+        if emulator:
+            from LaserDisplaySimulator import LaserDisplaySimulator
+            LD = LaserDisplaySimulator()
+        else:
+            from LaserDisplayLocal import LaserDisplayLocal
+            LD = LaserDisplayLocal()
         factory = protocol.ServerFactory()
         factory.protocol = LaserProtocol
         reactor.listenTCP(self.port, factory)
