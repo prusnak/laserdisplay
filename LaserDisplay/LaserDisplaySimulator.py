@@ -38,6 +38,21 @@ class LaserDisplaySimulator(LaserDisplay):
         x1,y1,x2,y2 = map(lambda a: a*self.SCALE, (x1,y1,x2,y2) )
         pygame.draw.line(self.surface, self.__color(), (x1,y1), (x2,y2), self.SCALE)
 
+    def draw_rect(self, x, y, w, h):
+        x,y,w,h = map(lambda a: a*self.SCALE, (x,y,w,h) )
+        pygame.draw.rect(self.surface, self.__color(), pygame.Rect(x,y,w,h), self.SCALE)
+
+    def draw_ellipse(self, cx, cy, rx, ry):
+        if rx < 1 or ry < 1:
+            return
+        cx,cy,rx,ry = map(lambda a: a*self.SCALE, (cx,cy,rx,ry) )
+        pygame.draw.ellipse(self.surface, self.__color(), pygame.Rect(cx-rx,cy-ry,2*rx,2*ry), self.SCALE)
+
+    def draw_multiline(self, points):
+        for i in range(len(points)):
+            points[i] = map(lambda a: a*self.SCALE, points[i] )
+        pygame.draw.lines(self.surface, self.__color(), False, points, self.SCALE)
+
     def draw_quadratic_bezier(self, points, steps):
         if len(points) < 3:
             print 'Quadratic Bezier curves have to have at least three points'

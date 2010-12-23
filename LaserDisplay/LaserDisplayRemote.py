@@ -22,6 +22,18 @@ class LaserDisplayRemote(LaserDisplay):
     def draw_line(self, x1, y1, x2, y2):
         self.remote.write('line %f %f %f %f\n' % (x1, y1, x2, y2))
 
+    def draw_rect(self, x, y, w, h):
+        self.remote.write('rect %f %f %f %f\n' % (x, y, w, h))
+
+    def draw_ellipse(self, cx, cy, rx, ry):
+        self.remote.write('ellipse %f %f %f %f\n' % (cx, cy, rx, ry))
+
+    def draw_multiline(self, points):
+        msg = 'multiline'
+        for p in points:
+            msg += ' %f %f' % (p[0], p[1])
+        self.remote.write(msg + '\n')
+
     def draw_quadratic_bezier(self, points, steps):
         msg = 'quadratic'
         for p in points:
