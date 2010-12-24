@@ -26,7 +26,7 @@ class LaserDisplaySimulator(LaserDisplay):
         pygame.display.flip()
         self.surface.fill( (0,0,0) )
 
-    def draw_point(self, x,y):
+    def draw_point(self, x, y, flags = 0x01):
         x,y = self.apply_context_transforms(x,y)
         x,y = map(lambda a: a*self.SCALE, (x,y) )
         pygame.draw.rect(self.surface, self.__color(), pygame.Rect(x,y,self.SCALE,self.SCALE), 1)

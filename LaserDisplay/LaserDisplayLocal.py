@@ -77,9 +77,7 @@ class LaserDisplayLocal(LaserDisplay):
 
     def draw_line(self, x1, y1, x2, y2):
         self.draw_point(x1, y1, 0x03)
-        self.draw_point(x1, y1, 0x02)
-        self.__buffer += [x1, 0x00, y1, 0x00, self.color['R'], self.color['G'], self.color['B'], 0x03, \
-                          x2, 0x00, y2, 0x00, self.color['R'], self.color['G'], self.color['B'], 0x02]
+        self.draw_point(x2, y2, 0x02)
 
     def draw_rect(self, x, y, w, h):
         self.draw_point(x  , y  , 0x03)

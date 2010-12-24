@@ -85,7 +85,7 @@ class LaserDisplay():
     def show_frame(self):
         raise NotImplementedError
 
-    def draw_point(self, x, y):
+    def draw_point(self, x, y, flags = 0):
         raise NotImplementedError
 
     def draw_line(self, x1, y1, x2, y2):

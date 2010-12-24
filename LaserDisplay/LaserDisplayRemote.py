@@ -20,8 +20,8 @@ class LaserDisplayRemote(LaserDisplay):
     def show_frame(self):
         self.remote.write('show\r\n')
 
-    def draw_point(self, x,y):
-        self.remote.write('point %f %f\r\n' % (x, y))
+    def draw_point(self, x, y, flags = 0x01):
+        self.remote.write('point %f %f %d\r\n' % (x, y, flags))
 
     def draw_line(self, x1, y1, x2, y2):
         self.remote.write('line %f %f %f %f\r\n' % (x1, y1, x2, y2))

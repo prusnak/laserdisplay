@@ -22,7 +22,7 @@ def process_line(line):
         LD.show_frame()
 
     elif s[0] == 'point':
-        LD.draw_point( float(s[1]), float(s[2]) )
+        LD.draw_point( float(s[1]), float(s[2]), int(s[3] )
 
     elif s[0] == 'line':
         LD.draw_line( float(s[1]), float(s[2]), float(s[3]), float(s[4]) )
