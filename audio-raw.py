@@ -15,9 +15,9 @@ pipeline.set_state(gst.STATE_PLAYING)
 LD = LaserDisplay.create()
 
 def setcolor(v):
-    if ( abs(v-128) < 20 ):
+    if abs(v-128) < 20:
         LD.set_color(LD.GREEN)
-    elif ( abs(v-128) < 40 ):
+    elif abs(v-128) < 40:
         LD.set_color(LD.YELLOW)
     else:
         LD.set_color(LD.RED)
@@ -30,6 +30,7 @@ while True:
         break
     raw = struct.unpack(str(len(buf)/2)+'h', buf)
     rawlen = len(raw)
+
     setcolor(128+raw[0]/128)
     LD.draw_point(0, 128+raw[0]/128, 0x03 )
     for i in range(1,255):
