@@ -103,7 +103,7 @@ class SVGHandler(xml.sax.handler.ContentHandler):
             ry = float(attrs.get('ry'))*self.scale
             color = attrs.get('stroke')
             if color:
-                self.set_color(color)
+                self.LD.set_color(color)
             self.LD.draw_ellipse(cx, cy, rx, ry)
 
         if name == 'rect':
