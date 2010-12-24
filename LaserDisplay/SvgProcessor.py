@@ -23,10 +23,12 @@ class SVGHandler(xml.sax.handler.ContentHandler):
             x0,y0 = x,y
             cmd = None
             while i < len(tokens):
+                if tokens[i] == '':
+                    i += 1
                 if tokens[i].lower() in ['m', 'c', 'l', 'h', 'v', 'z']:
                     cmd = tokens[i]
-                    i+=1
-                if cmd=='m':
+                    i += 1
+                if cmd == 'm':
                     delta = tokens[i].split(',')
                     x += float(delta[0])*self.scale
                     y += float(delta[1])*self.scale
@@ -38,43 +40,43 @@ class SVGHandler(xml.sax.handler.ContentHandler):
                     y = float(delta[1])*self.scale
                     x0,y0 = x,y
                     cmd = 'l'
-                elif cmd=='l':
+                elif cmd == 'l':
                     delta = tokens[i].split(',')
                     nx = x+float(delta[0])*self.scale
                     ny = y+float(delta[1])*self.scale
                     self.LD.draw_line(x, y, nx, ny)
                     x,y = nx,ny
-                elif cmd=='L':
+                elif cmd == 'L':
                     delta = tokens[i].split(',')
                     nx = float(delta[0])*self.scale
                     ny = float(delta[1])*self.scale
                     self.LD.draw_line(x, y, nx, ny)
                     x,y = nx,ny
-                elif cmd=='z' or cmd=='Z':
+                elif cmd == 'z' or cmd == 'Z':
                     i -= 1
                     self.LD.draw_line(x, y, x0, y0)
                     x,y = x0,y0
-                elif cmd=='h':
+                elif cmd == 'h':
                     delta = tokens[i]
                     nx = x+float(delta)*self.scale
                     self.LD.draw_line(x, y, nx, y)
                     x = nx
-                elif cmd=='H':
+                elif cmd == 'H':
                     delta = tokens[i]
                     nx = float(delta)*self.scale
                     self.LD.draw_line(x, y, nx, y)
                     x = nx
-                elif cmd=='v':
+                elif cmd == 'v':
                     delta = tokens[i]
                     ny = y+float(delta)*self.scale
                     self.LD.draw_line(x, y, x, ny)
                     y = ny
-                elif cmd=='V':
+                elif cmd == 'V':
                     delta = tokens[i]
                     ny = float(delta)*self.scale
                     self.LD.draw_line(x, y, x, ny)
                     y = ny
-                elif cmd=='c':
+                elif cmd == 'c':
                     ctrl1 = tokens[i].split(',')
                     ctrl2 = tokens[i+1].split(',')
                     delta = tokens[i+2].split(',')
@@ -84,7 +86,7 @@ class SVGHandler(xml.sax.handler.ContentHandler):
                     x = nx
                     y = ny
                     i+=2
-                elif cmd=='C':
+                elif cmd == 'C':
                     ctrl1 = tokens[i].split(',')
                     ctrl2 = tokens[i+1].split(',')
                     delta = tokens[i+2].split(',')
