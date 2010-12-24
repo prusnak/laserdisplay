@@ -67,9 +67,6 @@ class LaserDisplaySimulator(LaserDisplay):
             for s in range(steps):
                 t += step_inc
                 t_1 = 1.0 - t
-                if s == steps - 1 and i >= len(points) - 2:
-                    # TODO: what should this do?
-                    pass
                 pos = ((t_1 * (t_1 * points[i]  [0] + t * points[i+1][0]) + \
                         t   * (t_1 * points[i+1][0] + t * points[i+2][0]))*self.SCALE,  \
                        (t_1 * (t_1 * points[i]  [1] + t * points[i+1][1]) + \
@@ -92,9 +89,6 @@ class LaserDisplaySimulator(LaserDisplay):
             for s in range(steps):
                 t += step_inc
                 t_1 = 1.0 - t
-                if s == steps - 1 and i >= len(points) - 3:
-                    # TODO: what should this do?
-                    pass
                 pos = ((t_1 * (t_1 * (t_1 * points[i][0] + t * points[i+1][0]) + \
                         t   * (t_1 * points[i+1][0] + t * points[i+2][0])) +
                         t   * (t_1 * (t_1 * points[i+1][0] + t * points[i+2][0]) + \

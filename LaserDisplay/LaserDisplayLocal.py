@@ -76,31 +76,35 @@ class LaserDisplayLocal(LaserDisplay):
         self.__buffer += [x, 0x00, y, 0x00, self.color['R'], self.color['G'], self.color['B'], flags]
 
     def draw_line(self, x1, y1, x2, y2):
-        x1,y1 = self.apply_context_transforms(x1,y1)
-        x2,y2 = self.apply_context_transforms(x2,y2)
-        x1 = noise_clamp(x1)
-        y1 = noise_clamp(y1)
-        x2 = noise_clamp(x2)
-        y2 = noise_clamp(y2)
+        self.draw_point(x1, y1, 0x03)
+        self.draw_point(x1, y1, 0x02)
         self.__buffer += [x1, 0x00, y1, 0x00, self.color['R'], self.color['G'], self.color['B'], 0x03, \
                           x2, 0x00, y2, 0x00, self.color['R'], self.color['G'], self.color['B'], 0x02]
 
     def draw_rect(self, x, y, w, h):
-        self.draw_line(x,y,x+w,y)
-        self.draw_line(x+w,y,x+w,y+h)
-        self.draw_line(x+w,y+h,x,y+h)
-        self.draw_line(x,y+h,x,y)
+        self.draw_point(x  , y  , 0x03)
+        self.draw_point(x+w, y  , 0x00)
+        self.draw_point(x+w, y+h, 0x00)
+        self.draw_point(x  , y+h, 0x00)
+        self.draw_point(x  ,   y, 0x02)
 
     def draw_ellipse(self, cx, cy, rx, ry):
         if rx < 1 or ry < 1:
             return
         steps = int(math.sqrt(rx>ry and rx or ry)*2)
-        for i in range(0,steps):
-            self.draw_line(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),cx+rx*math.cos(2*math.pi/steps*(i+1)),cy+ry*math.sin(2*math.pi/steps*(i+1)))
+        i = 0
+        self.draw_point(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),0x03)
+        for i in range(1,steps):
+            self.draw_line(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),0x00)
+        i = 0
+        self.draw_point(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),0x02)
 
     def draw_multiline(self, points):
-        for i in len(points)-1:
-            self.draw_line( p[i][0], p[i][1], p[i+1][0], p[i+1][1] )
+        self.draw_point( p[0][0], p[0][1], 0x03)
+        for i in len(points)-2:
+            self.draw_point( p[i][0], p[i][1], 0x00)
+        i = len(points)-1
+        self.draw_point( p[i][0], p[i][1], 0x02)
 
     def draw_quadratic_bezier(self, points, steps):
         if len(points) < 3:
@@ -111,17 +115,19 @@ class LaserDisplayLocal(LaserDisplay):
 
         self.draw_point(points[0][0], points[0][1], 0x03)
 
+        flags = 0x00
         for i in range(0, len(points) - 2, 2):
             t = 0.0
             t_1 = 1.0
             for s in range(steps):
                 t += step_inc
                 t_1 = 1.0 - t
-                if s == steps - 1 and i >= len(points) - 2:
-                    self.draw_point(t_1 * (t_1 * points[i]  [0] + t * points[i+1][0]) + \
-                                    t   * (t_1 * points[i+1][0] + t * points[i+2][0]),  \
-                                    t_1 * (t_1 * points[i]  [1] + t * points[i+1][1]) + \
-                                    t   * (t_1 * points[i+1][1] + t * points[i+2][1]), 0x02)
+                if s == steps - 1 and i >= len(points) - 3:
+                    flags = 0x02
+                self.draw_point(t_1 * (t_1 * points[i]  [0] + t * points[i+1][0]) + \
+                                t   * (t_1 * points[i+1][0] + t * points[i+2][0]),  \
+                                t_1 * (t_1 * points[i]  [1] + t * points[i+1][1]) + \
+                                t   * (t_1 * points[i+1][1] + t * points[i+2][1]), flags)
 
     def draw_cubic_bezier(self, points, steps):
         if len(points) < 4:
@@ -132,18 +138,20 @@ class LaserDisplayLocal(LaserDisplay):
 
         self.draw_point(points[0][0], points[0][1], 0x03)
 
+        flags = 0x00
         for i in range(0, len(points) - 3, 2):
             t = 0.0
             t_1 = 1.0
             for s in range(steps):
                 t += step_inc
                 t_1 = 1.0 - t
-                if s == steps - 1 and i >= len(points) - 3:
-                    self.draw_point(t_1 * (t_1 * (t_1 * points[i][0] + t * points[i+1][0]) + \
-                                    t   * (t_1 * points[i+1][0] + t * points[i+2][0])) +
-                                    t   * (t_1 * (t_1 * points[i+1][0] + t * points[i+2][0]) + \
-                                    t   * (t_1 * points[i+2][0] + t * points[i+3][0])),  \
-                                    t_1 * (t_1 * (t_1 * points[i][1] + t * points[i+1][1]) + \
-                                    t   * (t_1 * points[i+1][1] + t * points[i+2][1])) +
-                                    t   * (t_1 * (t_1 * points[i+1][1] + t * points[i+2][1]) + \
-                                    t   * (t_1 * points[i+2][1] + t * points[i+3][1])), 0x02)
+                if s == steps - 1 and i >= len(points) - 4:
+                    flags = 0x02
+                self.draw_point(t_1 * (t_1 * (t_1 * points[i][0] + t * points[i+1][0]) + \
+                                t   * (t_1 * points[i+1][0] + t * points[i+2][0])) +
+                                t   * (t_1 * (t_1 * points[i+1][0] + t * points[i+2][0]) + \
+                                t   * (t_1 * points[i+2][0] + t * points[i+3][0])),  \
+                                t_1 * (t_1 * (t_1 * points[i][1] + t * points[i+1][1]) + \
+                                t   * (t_1 * points[i+1][1] + t * points[i+2][1])) +
+                                t   * (t_1 * (t_1 * points[i+1][1] + t * points[i+2][1]) + \
+                                t   * (t_1 * points[i+2][1] + t * points[i+3][1])), flags)
