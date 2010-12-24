@@ -123,7 +123,7 @@ class SVGHandler(xml.sax.handler.ContentHandler):
             color = attrs.get('stroke')
             if color:
                 self.LD.set_color(color)
-            points = map(lambda a: map(lambda b: b*self.scale,a.split(',')), points)
+            points = map(lambda a: map(lambda b: float(b)*self.scale, a.split(',') ), filter(lambda a: len(a)>0, points) )
             self.LD.draw_polyline(points)
 
         if name == 'line':

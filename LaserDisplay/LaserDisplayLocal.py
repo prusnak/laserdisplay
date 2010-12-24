@@ -99,7 +99,7 @@ class LaserDisplayLocal(LaserDisplay):
         i = 0
         self.draw_point(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),0x02)
 
-    def draw_multiline(self, points):
+    def draw_polyline(self, points):
         self.draw_point( p[0][0], p[0][1], 0x03)
         for i in len(points)-2:
             self.draw_point( p[i][0], p[i][1], 0x00)

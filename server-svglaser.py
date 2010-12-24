@@ -4,6 +4,7 @@ import BaseHTTPServer
 import urllib
 import threading
 import Queue
+import time
 
 q = Queue.Queue()
 
@@ -42,6 +43,7 @@ def laser_loop(q):
         if not svg is None:
             sp.parseString(svg, 255.0/595.0)
             LD.show_frame()
+            time.sleep(1.0/25.0)
 
 threading.Thread(target=httpd.serve_forever).start()
 threading.Thread(target=laser_loop, args=[q]).start()

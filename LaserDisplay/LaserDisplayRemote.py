@@ -32,8 +32,8 @@ class LaserDisplayRemote(LaserDisplay):
     def draw_ellipse(self, cx, cy, rx, ry):
         self.remote.write('ellipse %f %f %f %f\r\n' % (cx, cy, rx, ry))
 
-    def draw_multiline(self, points):
-        msg = 'multiline'
+    def draw_polyline(self, points):
+        msg = 'polyline'
         for p in points:
             msg += ' %f %f' % (p[0], p[1])
         self.remote.write(msg + '\r\n')

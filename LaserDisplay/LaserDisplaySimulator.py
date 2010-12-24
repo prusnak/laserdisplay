@@ -47,7 +47,7 @@ class LaserDisplaySimulator(LaserDisplay):
         cx,cy,rx,ry = map(lambda a: a*self.SCALE, (cx,cy,rx,ry) )
         pygame.draw.ellipse(self.surface, self.__color(), pygame.Rect(cx-rx,cy-ry,2*rx,2*ry), self.SCALE)
 
-    def draw_multiline(self, points):
+    def draw_polyline(self, points):
         for i in range(len(points)):
             points[i] = map(lambda a: a*self.SCALE, points[i] )
         pygame.draw.lines(self.surface, self.__color(), False, points, self.SCALE)

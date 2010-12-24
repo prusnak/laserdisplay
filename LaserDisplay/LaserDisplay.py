@@ -103,7 +103,7 @@ class LaserDisplay():
     def draw_ellipse(self, cx, cy, rx, ry):
         raise NotImplementedError
 
-    def draw_multiline(self, points):
+    def draw_polyline(self, points):
         raise NotImplementedError
 
     def draw_text(self, string, x, y, size, kerning_percentage = -0.3):

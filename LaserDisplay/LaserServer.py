@@ -33,11 +33,11 @@ def process_line(line):
     elif s[0] == 'ellipse':
         LD.draw_ellipse( float(s[1]), float(s[2]), float(s[3]), float(s[4]) )
 
-    elif s[0] == 'multiline':
+    elif s[0] == 'polyline':
         points = []
         for i in range((len(s)-1)/2):
             points.append( (float(s[2*i+1]),float(s[2*i+2])) )
-        LD.draw_multiline(points)
+        LD.draw_polyline(points)
 
     elif s[0] == 'quadratic':
         points = []
