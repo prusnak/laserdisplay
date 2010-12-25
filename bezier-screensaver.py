@@ -38,7 +38,7 @@ class Particle:
     self.ax=0
     self.ay=0
 
-  def update_position(self):      
+  def update_position(self):
     self.x += self.vx
     self.y += self.vy
     self.vx += self.ax

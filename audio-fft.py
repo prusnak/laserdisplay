@@ -35,7 +35,7 @@ while True:
     idx = 0
     for i in range(0, 16):
         val = 0
-        steps = int(round((1.33**i)*4))
+        steps = int(round((1.20**i)*4))
         for _ in range(steps):
             val += raw[idx]
             idx += 1
