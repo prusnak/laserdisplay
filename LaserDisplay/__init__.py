@@ -18,3 +18,7 @@ def create():
     # default is simulator
     from LaserDisplaySimulator import LaserDisplaySimulator
     return LaserDisplaySimulator()
+
+def createProxy():
+    from LaserDisplayProxy import LaserDisplayProxy
+    return LaserDisplayProxy()
