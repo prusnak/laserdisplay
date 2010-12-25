@@ -338,26 +338,6 @@ function BatchCommand(text) {
 								"sw":null,
 								"w":null
 								};
-		this.rotateGripConnector = this.selectorGroup.appendChild( addSvgElementFromJson({
-							"element": "line",
-							"attr": {
-								"id": ("selectorGrip_rotateconnector_" + this.id),
-								"stroke": "#22C",
-								"stroke-width": "1"
-							}
-						}) );
-		this.rotateGrip = this.selectorGroup.appendChild( addSvgElementFromJson({
-							"element": "circle",
-							"attr": {
-								"id": ("selectorGrip_rotate_" + this.id),
-								"fill": "lime",
-								"r": 4,
-								"stroke": "#22C",
-								"stroke-width": 2,
-								"style": "cursor:url(images/rotate.png) 12 12, auto;"
-							}
-						}) );
-		
 		// add the corner grips
 		for (var dir in this.selectorGrips) {
 			this.selectorGrips[dir] = this.selectorGroup.appendChild( 
@@ -382,8 +362,6 @@ function BatchCommand(text) {
 		this.showGrips = function(show) {
 			// TODO: use suspendRedraw() here
 			var bShow = show ? "inline" : "none";
-			this.rotateGrip.setAttribute("display", bShow);
-			this.rotateGripConnector.setAttribute("display", bShow);
 			var elem = this.selectedElement;
 			for (var dir in this.selectorGrips) {
 				this.selectorGrips[dir].setAttribute("display", bShow);
@@ -521,14 +499,6 @@ function BatchCommand(text) {
 				this.selectorGroup.setAttribute("transform", "");
 			}
 
-			// we want to go 20 pixels in the negative transformed y direction, ignoring scale
-			assignAttributes(this.rotateGripConnector, { x1: nbax + (nbaw)/2, 
-														y1: nbay, 
-														x2: nbax + (nbaw)/2, 
-														y2: nbay- 20});
-			assignAttributes(this.rotateGrip, { cx: nbax + (nbaw)/2, 
-												cy: nbay - 20 });
-			
 			svgroot.unsuspendRedraw(sr_handle);
 		};
 

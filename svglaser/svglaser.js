@@ -16,6 +16,7 @@ $(function(){
     $('#ellipse').click(function(){ svgCanvas.setMode('ellipse'); });
 
     $('#clear').click(function(){ svgCanvas.clear(); });
+    $('#delete').click(function(){ svgCanvas.deleteSelectedElements(); });
 
     $('#color_white').click(function(){ svgCanvas.setStrokeColor('#ffffff'); });
     $('#color_red').click(function(){ svgCanvas.setStrokeColor('#ff0000'); });

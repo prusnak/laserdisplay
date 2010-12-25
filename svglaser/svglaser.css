@@ -1,7 +1,8 @@
 body {
-	background: #101010;
+	background: #181818;
 	margin: 0;
 	padding: 0;
+	margin-top: 84px;
 }
 
 #svg_editor {
@@ -41,7 +42,7 @@ body {
 #svg_editor #svgcanvas {
 	line-height: normal;
 	display: inline-block;
-	background-color: #101010;
+	background-color: #000000;
 	text-align: center;
 	vertical-align: middle;
 	width: 595px;
@@ -52,7 +53,7 @@ body {
 #svg_editor .button {
 	width: 64px;
 	height: 64px;
-	border: 3px solid #202020;
+	border: 3px solid #303030;
 	float: left;
 	margin: 4px;
 	text-align: center;
