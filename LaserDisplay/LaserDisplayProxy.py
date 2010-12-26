@@ -5,8 +5,8 @@ from LaserDisplaySimulator import LaserDisplaySimulator
 
 class LaserDisplayProxy(LaserDisplay):
 
-    def __init__(self):
-        self.devices = [ LaserDisplaySimulator(), LaserDisplayLocal() ]
+    def __init__(self, devices):
+        self.devices = devices
         LaserDisplay.__init__(self)
 
     def set_laser_configuration(self):

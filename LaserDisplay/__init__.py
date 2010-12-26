@@ -1,8 +1,6 @@
 import os
 
-def create():
-    mode = os.getenv('LASER')
-
+def create(mode = os.getenv('LASER')):
     if mode == 'local':
         from LaserDisplayLocal import LaserDisplayLocal
         return LaserDisplayLocal()
@@ -19,6 +17,8 @@ def create():
     from LaserDisplaySimulator import LaserDisplaySimulator
     return LaserDisplaySimulator()
 
-def createProxy():
+def createProxy(desc):
+    if not isinstance(desc, list) and not isinstance(desc, tuple):
+        raise ValueError('createProxy() method accepts only list and tuples')
     from LaserDisplayProxy import LaserDisplayProxy
-    return LaserDisplayProxy()
+    return LaserDisplayProxy( map(lambda x: create(x), desc) )

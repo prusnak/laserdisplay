@@ -5,6 +5,7 @@ import pygame
 import random
 
 LD = LaserDisplay.create()
+# LD = LaserDisplay.createProxy(['sim','local'])
 
 clock = pygame.time.Clock()
 
