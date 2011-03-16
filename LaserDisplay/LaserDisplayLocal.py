@@ -1,5 +1,7 @@
+import os
 import usb
 import time
+import math
 from LaserDisplay import LaserDisplay
 
 class LaserDisplayLocal(LaserDisplay):
@@ -33,14 +35,19 @@ class LaserDisplayLocal(LaserDisplay):
         self.set_laser_configuration()
 
     def __send_initalization(self):
-        usbdev = usb.core.find(idVendor=0x3333, idProduct=0x5555)
+
+        usbdev = None
+        for bus in usb.busses():
+            for dev in bus.devices:
+                if dev.idVendor == 0x3333:
+                    usbdev = dev
         if usbdev is None:
             raise IOError('Could not find laser device (3333:5555) ...')
 
         handle = usbdev.open()
 
         print 'Initializing device ... ',
-        initlog = open('usbinit.log')
+        initlog = open(os.path.dirname(os.path.abspath(__file__))+'/usbinit.log')
 
         for line in initlog.readlines():
             setup_packet = line.split('|')[0]
@@ -71,8 +78,8 @@ class LaserDisplayLocal(LaserDisplay):
 
     def draw_point(self, x, y, flags = 0x01):
         x,y = self.apply_context_transforms(x,y)
-        x = noise_clamp(x)
-        y = noise_clamp(y)
+        x = self.noise_clamp(x)
+        y = self.noise_clamp(y)
         self.__buffer += [x, 0x00, y, 0x00, self.color['R'], self.color['G'], self.color['B'], flags]
 
     def draw_line(self, x1, y1, x2, y2):
@@ -93,16 +100,16 @@ class LaserDisplayLocal(LaserDisplay):
         i = 0
         self.draw_point(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),0x03)
         for i in range(1,steps):
-            self.draw_line(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),0x00)
+            self.draw_point(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),0x00)
         i = 0
         self.draw_point(cx+rx*math.cos(2*math.pi/steps*i),cy+ry*math.sin(2*math.pi/steps*i),0x02)
 
     def draw_polyline(self, points):
-        self.draw_point( p[0][0], p[0][1], 0x03)
-        for i in len(points)-2:
-            self.draw_point( p[i][0], p[i][1], 0x00)
+        self.draw_point( points[0][0], points[0][1], 0x03)
+        for i in range(len(points)-2):
+            self.draw_point( points[i][0], points[i][1], 0x00)
         i = len(points)-1
-        self.draw_point( p[i][0], p[i][1], 0x02)
+        self.draw_point( points[i][0], points[i][1], 0x02)
 
     def draw_quadratic_bezier(self, points, steps):
         if len(points) < 3:

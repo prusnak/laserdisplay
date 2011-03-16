@@ -47,14 +47,14 @@ class LaserDisplay():
 
 # public functions
 
-    def noise_clamp(value):
+    def noise_clamp(self, value):
         min = 0
-        max = SIZE-1
+        max = self.SIZE - 1
         if self.noise > 0:
             value += random()*self.noise - self.noise/2
         if value > max: return max
         if value < min: return min
-        return int(value)
+        return max - int(value)
 
     def set_noise(self, noise):
         self.noise = noise
