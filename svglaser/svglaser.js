@@ -9,6 +9,8 @@ $(function(){
     svgCanvas.setStrokeColor('#ffffff');
     svgCanvas.setFillColor('none');
 
+    document.getElementById("toolarea").ondragstart = function() {return false;};
+
     $('#select').click(function(){ svgCanvas.setMode('select'); });
     $('#path').click(function(){ svgCanvas.setMode('fhpath'); });
     $('#line').click(function(){ svgCanvas.setMode('line'); });

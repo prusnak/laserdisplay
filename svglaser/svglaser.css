@@ -69,5 +69,8 @@ body {
 	width: 410px;
 	height: 595px;
 	float: left;
+	user-select: none;
+	-o-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
-
