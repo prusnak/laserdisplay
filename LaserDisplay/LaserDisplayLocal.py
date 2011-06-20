@@ -23,12 +23,16 @@ class LaserDisplayLocal(LaserDisplay):
 
         # get an endpoint instance
         # first interface match the first OUT endpoint
-        self.ep = usb.util.find_descriptor(
-            self.usbdev.get_interface_altsetting(),
-                custom_match = \
-                lambda e: \
-                    usb.util.endpoint_direction(e.bEndpointAddress) == \
-                    usb.util.ENDPOINT_OUT
+
+        cfg = self.usbdev.get_active_configuration()
+        interface_number = cfg[(0,0)].bInterfaceNumber
+        alternate_setting = usb.control.get_interface(self.usbdev, interface_number)
+        intf = usb.util.find_descriptor(cfg, bInterfaceNumber = interface_number, bAlternateSetting = alternate_setting)
+        self.ep = usb.util.find_descriptor(intf,
+            custom_match = \
+            lambda e: \
+                usb.util.endpoint_direction(e.bEndpointAddress) == \
+                usb.util.ENDPOINT_OUT
         )
 
         assert self.ep is not None
