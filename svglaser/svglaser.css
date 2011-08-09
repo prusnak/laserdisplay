@@ -60,6 +60,10 @@ body {
 	vertical-align: center;
 }
 
+#svg_editor .button_selected {
+	border: 3px solid #C0C0C0;
+}
+
 #svg_editor #workarea {
 	float: left;
 }
